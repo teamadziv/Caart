@@ -1,0 +1,109 @@
+<div id="caart-stikcy-cart-main"></div>
+
+<script>
+  let stickyCartData = {
+    sticky_cart_setting: {},
+  };
+
+  async function getStickyCart() {
+    const shop = '{{ shop.permanent_domain }}';
+
+    let response = await fetch(`https://d72d-182-185-170-165.ngrok-free.app/api/settings/sticky/${shop}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+
+    let { data } = await response.json();
+    console.log(data);
+    stickyCartData.sticky_cart_setting = { ...data };
+    createStickyCart(stickyCartData);
+  }
+
+  getStickyCart();
+
+  function createStickyCart(stickyCartData) {
+    if (stickyCartData.sticky_cart_setting.show_section) {
+      let mainSticky = document.createElement('div');
+      mainSticky.setAttribute('id', 'caart-sticky-div');
+      mainSticky.setAttribute('style', `background-color:${stickyCartData.sticky_cart_setting.bg_color}`);
+
+      mainSticky.innerHTML = `
+              <span id="caart-sticky-qty" style="background-color:${stickyCartData.sticky_cart_setting.qty_bg_color};color:${stickyCartData.sticky_cart_setting.qty_text_color};">{{ cart.item_count }}</span>
+              <svg viewBox="0 0 20 20" style="fill:${stickyCartData.sticky_cart_setting.icon_color}" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path fill-rule="evenodd" d="M1 1c0-.552.45-1 1.004-1h1.505c.831 0 1.505.672 1.505 1.5v.56l12.574.908c.877.055 1.52.843 1.397 1.71l-.866 6.034a1.504 1.504 0 0 1-1.489 1.288h-11.616v2h10.043a3.005 3.005 0 0 1 3.011 3c0 1.657-1.348 3-3.01 3a3.005 3.005 0 0 1-2.84-4h-5.368a3.005 3.005 0 0 1-2.84 4 3.005 3.005 0 0 1-3.01-3c0-1.306.838-2.418 2.007-2.83v-12.17h-1.003a1.002 1.002 0 0 1-1.004-1zm4.014 3.064v5.936h11.18l.727-5.07-11.907-.866zm9.04 12.936c0-.552.449-1 1.003-1 .554 0 1.004.448 1.004 1s-.45 1-1.004 1a1.002 1.002 0 0 1-1.003-1zm-11.047 0c0-.552.45-1 1.004-1s1.003.448 1.003 1-.449 1-1.003 1a1.002 1.002 0 0 1-1.004-1z"></path></svg>
+          `;
+
+      if (stickyCartData.sticky_cart_setting.sticky_cart_position == 'bottom_right') {
+        document.querySelector('#caart-stikcy-cart-main').setAttribute('style', 'bottom:10px;right:10px;');
+      } else if (stickyCartData.sticky_cart_setting.sticky_cart_position == 'center_right') {
+        document.querySelector('#caart-stikcy-cart-main').setAttribute('style', 'top:50%;right:10px;');
+      } else if (stickyCartData.sticky_cart_setting.sticky_cart_position == 'top_right') {
+        document.querySelector('#caart-stikcy-cart-main').setAttribute('style', 'top:10px;right:10px;');
+      } else if (stickyCartData.sticky_cart_setting.sticky_cart_position == 'bottom_left') {
+        document.querySelector('#caart-stikcy-cart-main').setAttribute('style', 'bottom:10px;left:10px;');
+      } else if (stickyCartData.sticky_cart_setting.sticky_cart_position == 'center_left') {
+        document.querySelector('#caart-stikcy-cart-main').setAttribute('style', 'top:50%;left:10px;');
+      } else if (stickyCartData.sticky_cart_setting.sticky_cart_position == 'top_left') {
+        document.querySelector('#caart-stikcy-cart-main').setAttribute('style', 'top:10px;left:10px;');
+      }
+
+      if (stickyCartData.sticky_cart_setting.button_action == 'drawer') {
+        document.getElementById('caart-stikcy-cart-main').addEventListener('click', function () {
+          document.getElementById('cart-drawer').classList.add('open');
+          document.querySelector('.cart-overlay').classList.add('active');
+        });
+      } else if (stickyCartData.sticky_cart_setting.button_action == 'cart') {
+        window.location.href = `{{shop.url}}/cart`;
+      } else {
+        window.location.href = `{{shop.url}}/checkout`;
+      }
+
+      document.querySelector('#caart-stikcy-cart-main').append(mainSticky);
+    }
+  }
+
+  async function updateQty() {
+    let cartDummyValues = {};
+    let cart = await fetch('/cart.js');
+    let res = await cart.json();
+    cartDummyValues = { ...res };
+    document.querySelector('#caart-stikcy-cart-main').querySelector('#caart-sticky-qty').innerHTML =
+      cartDummyValues.item_count;
+  }
+
+  (function (ns, fetch) {
+    if (typeof fetch !== 'function') return;
+
+    ns.fetch = function () {
+      const response = fetch.apply(this, arguments);
+
+      response.then((res) => {
+        if (
+          res.url.includes('/cart/add') ||
+          res.url.includes('/cart/update') ||
+          res.url.includes('/cart/change') ||
+          res.url.includes('/cart/clear')
+        ) {
+          updateQty();
+        }
+      });
+
+      return response;
+    };
+  })(window, window.fetch);
+</script>
+
+{% schema %}
+{
+  "name": "Sticky Cart",
+  "target": "body",
+  "disabled_on": {
+    "templates": ["cart"]
+  },
+  "stylesheet": "sticky.css",
+  "settings": []
+}
+{% endschema %}

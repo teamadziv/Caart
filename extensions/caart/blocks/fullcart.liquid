@@ -1,0 +1,571 @@
+<div id="fullcart"></div>
+
+{% if cart.item_count > 0 %}
+  <script>
+    let cartDummyValues = {};
+
+    let cartData = {};
+
+    async function getCart() {
+      let cart = await fetch('/cart.js');
+      let res = await cart.json();
+      cartDummyValues = { ...res };
+
+      console.log(cartDummyValues);
+
+      const shop = '{{ shop.permanent_domain }}';
+      let response = await fetch(`https://d72d-182-185-170-165.ngrok-free.app/api/settings/cartweb/${shop}/0`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+
+      let { data } = await response.json();
+      cartData = { ...data };
+
+      console.log(cartData, cartDummyValues);
+      createCartHtml(cartData, cartDummyValues);
+    }
+
+    getCart();
+    function createCartHtml(cartData, cartDummyValues) {
+      let cartHTML = document.createElement('div');
+      let orderNotesDiscountsMain = document.createElement('div');
+      orderNotesDiscountsMain.setAttribute('class', 'order-notes-discounts-main');
+      orderNotesDiscountsMain.innerHTML = `<div class="discount-checkout-main ${
+        cartData.trust_badge.show_section ? cartData.trust_badge.position : ''
+      }"></div>`;
+
+      //Header Cart
+      if (cartData.cart_header.show_section) {
+        let header = document.createElement('h1');
+        header.setAttribute('style', `color:${cartData.cart_header.color}`);
+        header.innerHTML = `${cartData.cart_header.heading}`;
+        cartHTML.appendChild(header);
+      }
+
+      //announcement
+      if (cartData.announcement.show_section) {
+        // creating main announcement div and applying styles from data
+        let announcement = document.createElement('div');
+        announcement.setAttribute('class', 'announcement');
+        announcement.setAttribute(
+          'style',
+          `color:${cartData.announcement.color}; background-color:${cartData.announcement.bg_color}`
+        );
+
+        // creating heading div and replacing [TIMER] with our timer
+        let announcementHeading = `<div class="announcement_text_timer">${cartData.announcement.heading}</div>`;
+        let replacedTimer = announcementHeading.replace(
+          '[TIMER]',
+          `<div id="timer" class="${cartData.announcement.timer_type}">${cartData.announcement.timer} </div>`
+        );
+
+        // adding all the data to main announcement div and then appending it to cartHTML
+        announcement.innerHTML = `${replacedTimer}`;
+        announcement.innerHTML += `<div class="announcement_end_text" style="display:none">${cartData.announcement.timer_end_text}</div>`;
+        cartHTML.appendChild(announcement);
+      }
+
+      //progrss bar
+      if (cartData.progress_bar.show_section) {
+        let progressBarMain = document.createElement('div');
+        progressBarMain.setAttribute('class', 'progress-bar-main');
+        progressBarMain.innerHTML = '<h3 class="progress-bar-heading"></h3>';
+        // setting heading text to first tiers texts etc
+        let tierHeadongText = '';
+        if (cartData.progress_bar.reward_basis == 'item_count') {
+          tierHeadongText = cartData.progress_bar.first_tier_reward_count_text.replace(
+            '{COUNT}',
+            cartData.progress_bar.first_tier_reward_count
+          );
+          tierHeadongText = tierHeadongText.replace('_____', `" ${cartData.progress_bar.first_tier_description} "`);
+        }
+        if (cartData.progress_bar.reward_basis == 'cart_amount') {
+          tierHeadongText = cartData.progress_bar.first_tier_minimum_total_text.replace(
+            '{AMOUNT}',
+            cartData.progress_bar.first_tier_minimum_total
+          );
+          tierHeadongText = tierHeadongText.replace('_____', `" ${cartData.progress_bar.first_tier_description} "`);
+        }
+        progressBarMain.querySelector('.progress-bar-heading').innerHTML = tierHeadongText;
+
+        // setting progress bar and its colors
+        let progressBar = document.createElement('div');
+        progressBar.setAttribute('class', 'progress-bar');
+        progressBar.setAttribute(
+          'style',
+          `background-color:${cartData.progress_bar.bar_background_color};--foreGroundColor:${cartData.progress_bar.bar_foreground_color}`
+        );
+        progressBarMain.append(progressBar);
+
+        let showNOofTiers = cartData.progress_bar.total_tiers;
+        let tierMain = document.createElement('div');
+
+        let tierOneHtml = document.createElement('div');
+        tierOneHtml.setAttribute('class', 'tiers tier-one');
+
+        let tierTwoHtml = document.createElement('div');
+        tierTwoHtml.setAttribute('class', 'tiers tier-two');
+
+        let tierThreeHtml = document.createElement('div');
+        tierThreeHtml.setAttribute('class', 'tiers tier-three');
+        // checking tiers to show their respesctive html
+
+        if (showNOofTiers == 2) {
+          if (cartData.progress_bar.show_second_tier_section) {
+            tierOneHtml.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="8" r="8" fill="${cartData.progress_bar.bar_foreground_color}"/>
+            <path d="M11.5557 5.33333L6.6668 10.2222L4.44458 8" stroke="white" stroke-width="1.01532" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>${cartData.progress_bar.first_tier_description}</span>
+          `;
+            tierTwoHtml.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="8" r="8" fill="${cartData.progress_bar.bar_foreground_color}"/>
+            <path d="M11.5557 5.33333L6.6668 10.2222L4.44458 8" stroke="white" stroke-width="1.01532" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>${cartData.progress_bar.second_tier_description}</span>
+          `;
+            tierMain.append(tierOneHtml);
+            tierMain.append(tierTwoHtml);
+          }
+          if (cartData.progress_bar.show_third_tier_section) {
+            tierOneHtml.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="8" r="8" fill="${cartData.progress_bar.bar_foreground_color}"/>
+            <path d="M11.5557 5.33333L6.6668 10.2222L4.44458 8" stroke="white" stroke-width="1.01532" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>${cartData.progress_bar.first_tier_description}</span>
+          `;
+            tierThreeHtml.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="8" r="8" fill="${cartData.progress_bar.bar_foreground_color}"/>
+            <path d="M11.5557 5.33333L6.6668 10.2222L4.44458 8" stroke="white" stroke-width="1.01532" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>${cartData.progress_bar.third_tier_description}</span>
+          `;
+            tierMain.append(tierOneHtml);
+            tierMain.append(tierThreeHtml);
+          }
+
+          tierMain.setAttribute('class', 'tiers-main two-tiers');
+          progressBarMain.append(tierMain);
+        }
+
+        if (showNOofTiers == 3) {
+          tierOneHtml.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="8" r="8" fill="${cartData.progress_bar.bar_foreground_color}"/>
+          <path d="M11.5557 5.33333L6.6668 10.2222L4.44458 8" stroke="white" stroke-width="1.01532" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>${cartData.progress_bar.first_tier_description}</span>
+        `;
+          tierTwoHtml.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="8" r="8" fill="${cartData.progress_bar.bar_foreground_color}"/>
+          <path d="M11.5557 5.33333L6.6668 10.2222L4.44458 8" stroke="white" stroke-width="1.01532" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>${cartData.progress_bar.second_tier_description}</span>
+        `;
+          tierThreeHtml.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="8" r="8" fill="${cartData.progress_bar.bar_foreground_color}"/>
+            <path d="M11.5557 5.33333L6.6668 10.2222L4.44458 8" stroke="white" stroke-width="1.01532" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>${cartData.progress_bar.third_tier_description}</span>
+          `;
+          tierMain.append(tierOneHtml);
+          tierMain.append(tierTwoHtml);
+          tierMain.append(tierThreeHtml);
+
+          tierMain.setAttribute('class', 'tiers-main three-tiers');
+          progressBarMain.append(tierMain);
+        }
+
+        cartHTML.append(progressBarMain);
+      }
+
+      // cart items
+      if (cartData.cart_items.show_section) {
+        let cartItemsMain = document.createElement('div');
+        cartItemsMain.setAttribute('class', 'cart-items-main');
+
+        cartItemsMain.innerHTML = `<div class="cart-items-header">
+          <span>Product</span>
+          <span>Price</span>
+          <span>QTY</span>
+          <span>total</span>
+      </div>`;
+
+        for (let i = 0; i <= cartDummyValues.items.length - 1; i++) {
+          cartItemsMain.innerHTML += `
+        <div class="cart-single-item"  data-line-item-key="${cartDummyValues.items[i].variant_id}"> 
+          <div class="name-img-variant">
+            <div class="img"><img src="${cartDummyValues.items[i].image}" alt="${
+            cartDummyValues.items[i].product_title
+          }"/></div>
+            <div class="name-variant">
+              <a href="${cartDummyValues.items[i].url}" class="name">${cartDummyValues.items[i].product_title}</a>
+              <div class="variant"> ${cartDummyValues.items[i].variant_title}</div>  
+            </div>
+          </div>
+          <div class="price" data-price="${cartDummyValues.items[i].price}">
+            ${formatMoney(cartDummyValues.items[i].price, cartDummyValues.currency + ' {amount}')}
+          </div>
+          <div class="qty-main">
+            <div>
+            <div class="decerement"> - </div>
+            <input type="number" name="qty" value="${cartDummyValues.items[i].quantity}" min="1"/>
+            <div class="increment"> + </div>
+            </div>
+          </div>
+          <div class="total-line-item-price" data-line-price="${cartDummyValues.items[i].final_line_price}">
+            ${formatMoney(cartDummyValues.items[i].final_line_price, cartDummyValues.currency + ' {amount}')}
+          </div>
+        </div>`;
+        }
+
+        cartHTML.append(cartItemsMain);
+      }
+
+      // discount code
+      if (cartData.discount_codes.show_section) {
+        let discountCodeMain = document.createElement('div');
+        discountCodeMain.setAttribute('class', 'discount-code-main');
+
+        discountCodeMain.innerHTML = `
+        <form class="disocunt-code-form">
+          <input type="text" name="discount" placeholder="${cartData.discount_codes.discount_placeholder}"/>
+          <button type="submit">${cartData.discount_codes.discount_btn_text}</button
+      `;
+
+        orderNotesDiscountsMain.querySelector('.discount-checkout-main').append(discountCodeMain);
+      }
+
+      // subtotal and buttons
+      if (cartData.checkout_btns.show_section) {
+        let checkoutBtnSubtotalMain = document.createElement('div');
+        checkoutBtnSubtotalMain.setAttribute('class', 'checkout-btn-subtotal-main');
+
+        let subtotalMain = document.createElement('div');
+        subtotalMain.setAttribute('class', 'subtotal-main');
+        subtotalMain.innerHTML = `
+        <span>Subtotal</span>
+        <span id="caart-subtotal" data-cart-subtotal="${cartDummyValues.items_subtotal_price}">${formatMoney(
+          Number(cartDummyValues.items_subtotal_price),
+          cartDummyValues.currency + ' {amount}'
+        )} </span>
+      `;
+
+        let checkoutBtn = document.createElement('div');
+        checkoutBtn.setAttribute('class', 'checkout-btns');
+        checkoutBtn.innerHTML = `
+        <a class="checkout-btn-continue-shopping" href="/collections/all"
+          style="background-color:${cartData.checkout_btns.continue_shopping_btn_color};
+          color:${cartData.checkout_btns.continue_shopping_btn_text_color};
+          --bgContinueHover:${cartData.checkout_btns.continue_shopping_btn_color_hover};
+          --colorContinueHover:${cartData.checkout_btns.continue_shopping_btn_text_color_hover}"
+        > ${cartData.checkout_btns.continue_shopping_btn_text} </a>
+        <a class="checkout-btn-checkout" href="/checkout"
+          style="background-color:${cartData.checkout_btns.checkout_btn_color};
+          color:${cartData.checkout_btns.checkout_btn_text_color};
+          --bgCheckHover:${cartData.checkout_btns.checkout_btn_color_hover};
+          --colorCheckHover:${cartData.checkout_btns.checkout_btn_text_color_hover}"
+          >${cartData.checkout_btns.checkout_btn_text}</a>
+      `;
+
+        checkoutBtnSubtotalMain.append(subtotalMain);
+        checkoutBtnSubtotalMain.append(checkoutBtn);
+        orderNotesDiscountsMain.querySelector('.discount-checkout-main').append(checkoutBtnSubtotalMain);
+      }
+
+      //badge
+      if (cartData.trust_badge.show_section) {
+        let badgesDiv = document.createElement('div');
+        badgesDiv.setAttribute('class', 'badge-div');
+        badgesDiv.innerHTML = `<img src="${cartData.trust_badge.img}"/>`;
+
+        orderNotesDiscountsMain.querySelector('.discount-checkout-main').append(badgesDiv);
+      }
+
+      // order notes
+      if (cartData.order_notes.show_section) {
+        let orderNoteSection = document.createElement('div');
+        orderNoteSection.setAttribute('class', 'order-note-main');
+
+        orderNoteSection.innerHTML = `
+        <h3 class="order-note-heading">${cartData.order_notes.notes_title}</h3>
+        <textarea name="note" id="note" placeholder="${cartData.order_notes.notes_placeholder}"></textarea>
+      `;
+
+        orderNotesDiscountsMain.append(orderNoteSection);
+      }
+
+      // appending note,discount,checkout btns,badge to cartHTML
+      cartHTML.append(orderNotesDiscountsMain);
+      // setting cartHTML to main fullcart div
+      document.getElementById('fullcart').innerHTML = cartHTML.innerHTML;
+      document
+        .getElementById('MainContent')
+        .parentNode.replaceChild(document.getElementById('fullcart'), document.getElementById('MainContent'));
+
+      //--------------------------------------------------- helper functions ----------------------------------------- //
+
+      // ------------------- cart timer code starts
+      if (cartData.announcement.show_section) {
+        startCountdown(document.querySelector('#timer'));
+      }
+      function startCountdown(timerElement) {
+        var timeArray = timerElement.textContent.split(':');
+        var hours = 0;
+        var minutes = 0;
+        var seconds = 0;
+
+        if (timeArray.length === 3) {
+          hours = parseInt(timeArray[0]);
+          minutes = parseInt(timeArray[1]);
+          seconds = parseInt(timeArray[2]);
+        } else if (timeArray.length === 2) {
+          minutes = parseInt(timeArray[0]);
+          seconds = parseInt(timeArray[1]);
+        }
+
+        var interval = setInterval(function () {
+          if (hours === 0 && minutes === 0 && seconds === 0) {
+            if (cartData.announcement.timer_action == 'reset_time') {
+              clearInterval(interval);
+              resetCountdown(timerElement);
+            } else if (cartData.announcement.timer_action == 'empty_cart') {
+              console.log('cart empty function here');
+              document.querySelector('.announcement_text_timer').style.display = 'none';
+              document.querySelector('.announcement_end_text').style.display = 'block';
+              clearInterval(interval);
+            } else {
+              clearInterval(interval);
+            }
+
+            return;
+          }
+
+          if (minutes === 0 && seconds === 0) {
+            if (hours > 0) {
+              hours--;
+              minutes = 59;
+              seconds = 59;
+            }
+          } else if (seconds === 0) {
+            minutes--;
+            seconds = 59;
+          } else {
+            seconds--;
+          }
+
+          var formattedHours = hours < 10 ? '0' + hours : hours;
+          var formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+          var formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+
+          timerElement.innerHTML =
+            '<span>' +
+            formattedHours +
+            '</span>:<span>' +
+            formattedMinutes +
+            '</span>:<span>' +
+            formattedSeconds +
+            '</span>';
+          // console.log(timerElement)
+        }, 1000);
+      }
+      function resetCountdown(timerElement) {
+        var timerValue = cartData.announcement.timer;
+        var formattedTimer = timerValue.replace(/(\d+):(\d+):(\d+)/, '<span>$1</span>:<span>$2</span>:<span>$3</span>');
+        timerElement.innerHTML = formattedTimer;
+        startCountdown(timerElement);
+      }
+      //-------------------- cart timer code ends
+
+      // ---------------- cart increment, decrement, subtotal update
+
+      let cartSubtotal = document.querySelector('span#caart-subtotal').getAttribute('data-cart-subtotal');
+      let cartSubtotalEle = document.querySelector('span#caart-subtotal');
+
+      document.querySelectorAll('.cart-single-item .qty-main .increment').forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+          let qtyInput = btn.previousElementSibling;
+          qtyInput.value = Number(qtyInput.value) + 1;
+
+          let parentEle = btn.closest('.cart-single-item');
+
+          const res = await fetch('/cart/update.js', {
+            method: 'post',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              updates: {
+                [parentEle.getAttribute('data-line-item-key')]: Number(qtyInput.value),
+              },
+            }),
+          });
+          const cart = await res.json();
+          console.log(cart, 'incremented');
+
+          let price = parentEle.querySelector('.price').getAttribute('data-price');
+          let totalPriceEle = parentEle.querySelector('.total-line-item-price');
+          totalPriceEle.setAttribute('data-line-price', Number(price) * Number(qtyInput.value));
+          totalPriceEle.innerHTML = formatMoney(
+            Number(price) * Number(qtyInput.value),
+            cartDummyValues.currency + ' {amount}'
+          );
+
+          let cart_price = 0;
+          document.querySelectorAll('.total-line-item-price').forEach((total) => {
+            cart_price = Number(cart_price) + Number(total.getAttribute('data-line-price'));
+          });
+
+          cartSubtotalEle.setAttribute('data-cart-subtotal', cart_price);
+          cartSubtotalEle.innerHTML = formatMoney(cart_price, cartDummyValues.currency + ' {amount}');
+        });
+      });
+
+      document.querySelectorAll('.cart-single-item .qty-main .decerement').forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+          let qtyInput = btn.nextElementSibling;
+          if (Number(qtyInput.value) - 1 <= 0) {
+            let parentEle = btn.closest('.cart-single-item');
+
+            const res = await fetch('/cart/update.js', {
+              method: 'post',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                updates: {
+                  [parentEle.getAttribute('data-line-item-key')]: 0,
+                },
+              }),
+            });
+            const cart = await res.json();
+            console.log(cart, 'decremented deleted');
+            parentEle.setAttribute('style', 'display:none !important');
+            let price = parentEle.querySelector('.price').getAttribute('data-price');
+            let totalPriceEle = parentEle.querySelector('.total-line-item-price');
+            totalPriceEle.setAttribute('data-line-price', 0);
+            totalPriceEle.innerHTML = formatMoney(0, cartDummyValues.currency + ' {amount}');
+
+            let cart_price = 0;
+            document.querySelectorAll('.total-line-item-price').forEach((total) => {
+              cart_price = Number(cart_price) + Number(total.getAttribute('data-line-price'));
+            });
+
+            cartSubtotalEle.setAttribute('data-cart-subtotal', cart_price);
+            cartSubtotalEle.innerHTML = formatMoney(cart_price, cartDummyValues.currency + ' {amount}');
+          } else {
+            qtyInput.value = Number(qtyInput.value) - 1;
+
+            let parentEle = btn.closest('.cart-single-item');
+
+            const res = await fetch('/cart/update.js', {
+              method: 'post',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                updates: {
+                  [parentEle.getAttribute('data-line-item-key')]: Number(qtyInput.value),
+                },
+              }),
+            });
+            const cart = await res.json();
+            console.log(cart, 'decremented');
+            let price = parentEle.querySelector('.price').getAttribute('data-price');
+            let totalPriceEle = parentEle.querySelector('.total-line-item-price');
+            totalPriceEle.setAttribute('data-line-price', Number(price) * Number(qtyInput.value));
+            totalPriceEle.innerHTML = formatMoney(
+              Number(price) * Number(qtyInput.value),
+              cartDummyValues.currency + ' {amount}'
+            );
+
+            let cart_price = 0;
+            document.querySelectorAll('.total-line-item-price').forEach((total) => {
+              cart_price = Number(cart_price) + Number(total.getAttribute('data-line-price'));
+            });
+
+            cartSubtotalEle.setAttribute('data-cart-subtotal', cart_price);
+            cartSubtotalEle.innerHTML = formatMoney(cart_price, cartDummyValues.currency + ' {amount}');
+          }
+        });
+      });
+
+      // ---------------- cart increment, decrement, subtotal update ends
+
+      function formatMoney(cents, format) {
+        if (typeof cents == 'string') {
+          cents = cents.replace('.', '');
+        }
+        var value = '';
+        var placeholderRegex = /\{\s*(\w+)\s*\}/;
+        var money_format = '$ {amount}';
+        var formatString = format || money_format;
+
+        function defaultOption(opt, def) {
+          return typeof opt == 'undefined' ? def : opt;
+        }
+
+        function formatWithDelimiters(number, precision, thousands, decimal) {
+          precision = defaultOption(precision, 2);
+          thousands = defaultOption(thousands, ',');
+          decimal = defaultOption(decimal, '.');
+
+          if (isNaN(number) || number == null) {
+            return 0;
+          }
+
+          number = (number / 100.0).toFixed(precision);
+
+          var parts = number.split('.'),
+            dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
+            cents = parts[1] ? decimal + parts[1] : '';
+
+          return dollars + cents;
+        }
+
+        switch (formatString.match(placeholderRegex)[1]) {
+          case 'amount':
+            value = formatWithDelimiters(cents, 2);
+            break;
+          case 'amount_no_decimals':
+            value = formatWithDelimiters(cents, 0);
+            break;
+          case 'amount_with_comma_separator':
+            value = formatWithDelimiters(cents, 2, '.', ',');
+            break;
+          case 'amount_no_decimals_with_comma_separator':
+            value = formatWithDelimiters(cents, 0, '.', ',');
+            break;
+        }
+
+        return formatString.replace(placeholderRegex, value);
+      }
+    }
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "full cart",
+  "target": "section",
+  "enabled_on": {
+    "templates": ["cart"]
+  },
+  "stylesheet": "appp.css",
+  "settings": []
+}
+{% endschema %}

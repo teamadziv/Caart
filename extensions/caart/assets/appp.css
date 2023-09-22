@@ -1,0 +1,427 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+#fullcart {
+    /* margin: 50px 0; */
+}
+
+#fullcart h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* announcement code starts */
+#fullcart .announcement {
+    padding: 10px 0;
+    text-align: center;
+}
+
+#fullcart .announcement_text_timer {
+    display: flex;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+#fullcart .announcement_text_timer #timer.round_background,
+#fullcart .announcement_text_timer #timer.solid_background {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+#fullcart .announcement_text_timer #timer.round_background span {
+    background-color: #000;
+    color: #fff;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#fullcart .announcement_text_timer #timer.solid_background span {
+    background-color: #000;
+    color: #fff;
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* announcement code ends */
+
+
+/* progress bar code starts */
+
+.progress-bar-main {
+    max-width: 700px;
+    padding: 0 20px;
+    margin: 50px auto;
+}
+
+.progress-bar {
+    height: 10px;
+    position: relative;
+    display: block !important;
+}
+
+.progress-bar:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    height: 10px;
+    top: 0;
+    width: 10%;
+    background-color: var(--foreGroundColor);
+}
+
+.progress-bar-heading {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #333133;
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 0;
+}
+
+.tiers-main {
+    position: relative;
+}
+
+.tiers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    position: absolute;
+    font-size: 12px;
+}
+
+.tiers-main.two-tiers .tiers:nth-child(1) {
+    top: -13px;
+    left: 20%;
+    transform: translateX(-20%);
+}
+
+.tiers-main.two-tiers .tiers:nth-child(2) {
+    top: -13px;
+    right: 20%;
+    transform: translateX(-20%);
+}
+
+.tiers-main.three-tiers .tiers:nth-child(1) {
+    top: -13px;
+    left: 15%;
+    transform: translateX(-15%);
+}
+
+.tiers-main.three-tiers .tiers:nth-child(2) {
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tiers-main.three-tiers .tiers:nth-child(3) {
+    top: -13px;
+    right: 15%;
+    transform: translateX(-15%);
+}
+
+/* progress bar code ends */
+
+/* order discount notes start */
+.order-notes-discounts-main {
+    display: flex;
+    gap: 20px;
+    max-width: 768px;
+    margin: 30px auto;
+    padding: 0 20px;
+    flex-direction: row-reverse;
+    box-sizing: border-box;
+}
+
+.discount-checkout-main {
+    flex: 0 0 48%;
+    width: 50%;
+    margin-left: 20px;
+}
+
+.order-note-main {
+    flex: 0 0 47%;
+    width: 50%;
+}
+
+.order-note-heading {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 10px;
+    color: #6D7175;
+    margin-bottom: 10px;
+}
+
+#note {
+    display: block;
+    width: 100%;
+    height: 90px;
+    resize: none;
+    padding: 10px;
+    border: 1px solid #CFCFCF;
+    outline: none;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    color: #6D7175;
+    font-family: 'Poppins', sans-serif;
+}
+
+#note::placeholder {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    color: #6D7175;
+    font-family: 'Poppins', sans-serif;
+}
+
+form.disocunt-code-form {
+    width: 100%;
+    position: relative;
+    border: 1px solid #CFCFCF;
+    margin-top: 34px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+}
+
+form.disocunt-code-form input {
+    max-width: 100%;
+    width: 95%;
+    height: 21px;
+    padding: 8px 8px 8px 10px;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    color: #8C9196;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: none !important;
+}
+
+form.disocunt-code-form input::placeholder {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    color: #8C9196;
+    font-family: 'Poppins', sans-serif;
+}
+
+form.disocunt-code-form button {
+    position: absolute;
+    right: 4px;
+    top: 3px;
+    background: #202223;
+    color: #fff;
+    padding: 9px 12px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    outline: none;
+    border: none;
+}
+
+.subtotal-main {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    align-items: center;
+}
+
+.subtotal-main>span {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #202223;
+}
+
+.subtotal-main #caart-subtotal {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 12px;
+    color: #5C5A5C;
+}
+
+.checkout-btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkout-btns a.checkout-btn-continue-shopping {
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.checkout-btns a.checkout-btn-continue-shopping:hover {
+    background-color: var(--bgContinueHover) !important;
+    color: var(--colorContinueHover) !important;
+}
+
+.checkout-btns a.checkout-btn-checkout {
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.checkout-btns a.checkout-btn-checkout:hover {
+    background-color: var(--bgCheckHover) !important;
+    color: var(--colorCheckHover) !important;
+}
+
+.badge-div {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-div img {
+    max-width: 100%;
+}
+
+/* order discount ends */
+
+
+/* cart items starts */
+.cart-items-main {
+    max-width: 768px;
+    margin: 90px auto 40px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.cart-items-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 10px;
+}
+
+.cart-items-header span {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    color: #333133;
+    text-align: center;
+}
+
+.cart-items-header span:nth-child(1) {
+    grid-column: 1/3;
+    text-align: left;
+}
+
+
+.cart-single-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    border-bottom: 1px solid #D9D9D9;
+    padding: 10px 0;
+    align-items: center;
+}
+
+.cart-single-item .img {
+    display: flex;
+    align-items: center;
+}
+
+.cart-single-item .img img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.cart-single-item .name {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px !important;
+    text-decoration: none;
+    color: #333133;
+    display: inline-block;
+}
+
+.cart-single-item .variant {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 14px;
+    margin-top: 5px;
+}
+
+.cart-single-item .name-img-variant {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    grid-column: 1/3;
+}
+
+.cart-single-item .price,
+.cart-single-item .total-line-item-price {
+    text-align: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 12px;
+    color: #5C5A5C;
+}
+
+.cart-single-item .qty-main {
+    display: flex;
+    justify-content: center;
+}
+
+.cart-single-item .qty-main>div {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    max-width: 100px;
+    padding: 5px 10px;
+}
+
+.cart-single-item .qty-main input {
+    max-width: 50px;
+    text-align: center;
+    border: transparent;
+    outline: none !important
+}
+
+
+.cart-single-item .qty-main input::-webkit-outer-spin-button,
+.cart-single-item .qty-main input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.cart-single-item .qty-main .increment,
+.cart-single-item .qty-main .decerement {
+    cursor: pointer;
+}
+
+/* cart items ends */
