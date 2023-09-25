@@ -10,7 +10,7 @@ import GDPRWebhookHandlers from "./gdpr.js";
 import SessionModel from "./models/SessionModel.js";
 import CartModel from "./models/CartModel.js";
 import * as crypto from "crypto";
-import { ShopDetails } from "./helper/ShopDetail.js";
+import { ShopDetails } from "./helper/ShopDetail.js"; 
 import ModuleModel from "./models/ModulesModel.js";
 import StickyCartSetting from "./models/StickyCartSetting.js";
 import SettingsData from "./models/SettingDataModel.js"
