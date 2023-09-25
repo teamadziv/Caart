@@ -56,9 +56,9 @@
           document.querySelector('.cart-overlay').classList.add('active');
         });
       } else if (stickyCartData.sticky_cart_setting.button_action == 'cart') {
-        window.location.href = `{{shop.url}}/cart`;
+        window.location.href = `{{ shop.url }}/cart`;
       } else {
-        window.location.href = `{{shop.url}}/checkout`;
+        window.location.href = `{{ shop.url }}/checkout`;
       }
 
       document.querySelector('#caart-stikcy-cart-main').append(mainSticky);
