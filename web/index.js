@@ -28,7 +28,7 @@ async function main() {
 
 }
 const STATIC_PATH =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "production"  
     ? `${process.cwd()}/frontend/dist`
     : `${process.cwd()}/frontend/`;
 
