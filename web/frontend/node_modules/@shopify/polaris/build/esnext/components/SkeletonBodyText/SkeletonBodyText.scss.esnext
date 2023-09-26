@@ -1,0 +1,7 @@
+import './SkeletonBodyText.css';
+
+var styles = {
+  "SkeletonBodyText": "Polaris-SkeletonBodyText_4hwgi"
+};
+
+export { styles as default };

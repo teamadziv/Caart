@@ -1,0 +1,19 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var styles = {
+  "Select": "Polaris-Select",
+  "disabled": "Polaris-Select--disabled",
+  "Content": "Polaris-Select__Content",
+  "InlineLabel": "Polaris-Select__InlineLabel",
+  "Icon": "Polaris-Select__Icon",
+  "Backdrop": "Polaris-Select__Backdrop",
+  "SelectedOption": "Polaris-Select__SelectedOption",
+  "Prefix": "Polaris-Select__Prefix",
+  "Input": "Polaris-Select__Input",
+  "error": "Polaris-Select--error",
+  "hover": "Polaris-Select--hover"
+};
+
+exports["default"] = styles;

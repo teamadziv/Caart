@@ -1,0 +1,11 @@
+import React from 'react';
+
+var SvgArrowDownMinor = function SvgArrowDownMinor(props) {
+  return /*#__PURE__*/React.createElement("svg", Object.assign({
+    viewBox: "0 0 20 20"
+  }, props), /*#__PURE__*/React.createElement("path", {
+    d: "m10.707 17.707 5-5a.999.999 0 1 0-1.414-1.414l-3.293 3.293v-11.586a1 1 0 1 0-2 0v11.586l-3.293-3.293a.999.999 0 1 0-1.414 1.414l5 5a.999.999 0 0 0 1.414 0z"
+  }));
+};
+
+export { SvgArrowDownMinor as S };

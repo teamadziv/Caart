@@ -1,0 +1,19 @@
+.Polaris-Link_yj5sy { -webkit-appearance: none; appearance: none; display: inline; text-align: inherit; padding: 0; background: none; border: 0; font-size: inherit; font-weight: inherit; color: var(--p-interactive); text-decoration: underline; cursor: pointer; }
+
+.Polaris-Link_yj5sy:hover { color: var(--p-interactive-hovered); text-decoration: none; }
+
+.Polaris-Link_yj5sy:focus:not(:active) { outline: var(--p-focused) auto var(--p-border-width-1); }
+
+.Polaris-Link_yj5sy:active { position: relative; color: var(--p-interactive-pressed); }
+
+.Polaris-Link_yj5sy:active::before { content: ''; position: absolute; z-index: -1; top: -0.125rem; right: -0.3125rem; bottom: -0.125rem; left: -0.3125rem; display: block; border-radius: var(--p-border-radius-base); }
+
+@media print { .Polaris-Link_yj5sy { -webkit-text-decoration-color: var(--p-border-neutral-subdued); text-decoration-color: var(--p-border-neutral-subdued); } }
+
+.Polaris-Link--monochrome_14jw2 { color: inherit; }
+
+.Polaris-Link--monochrome_14jw2:hover, .Polaris-Link--monochrome_14jw2:focus, .Polaris-Link--monochrome_14jw2:active { color: inherit; }
+
+.Polaris-Link--removeUnderline_adav6 { text-decoration: none; }
+
+.Polaris-Link--removeUnderline_adav6:hover { text-decoration: underline; }

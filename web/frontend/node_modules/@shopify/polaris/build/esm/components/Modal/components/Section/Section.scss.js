@@ -1,0 +1,8 @@
+var styles = {
+  "Section": "Polaris-Modal-Section",
+  "subdued": "Polaris-Modal-Section--subdued",
+  "flush": "Polaris-Modal-Section--flush",
+  "titleHidden": "Polaris-Modal-Section--titleHidden"
+};
+
+export { styles as default };

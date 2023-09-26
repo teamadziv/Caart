@@ -1,0 +1,5 @@
+.Polaris-FullscreenBar_tzdog { position: relative; display: flex; height: 3.5rem; box-shadow: var(--p-shadow-top-bar); background-color: var(--p-surface); }
+
+.Polaris-FullscreenBar__BackAction_19vli { display: flex; flex: 0 1 auto; align-items: center; padding-left: var(--p-space-3); padding-right: var(--p-space-3); border-width: 0; border-right: var(--p-border-base); background-color: var(--p-surface); font-weight: var(--p-font-weight-medium); cursor: pointer; }
+
+.Polaris-FullscreenBar__BackAction_19vli :first-child { padding-right: var(--p-space-05); }

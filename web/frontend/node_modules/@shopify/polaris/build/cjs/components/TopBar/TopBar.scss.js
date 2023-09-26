@@ -1,0 +1,22 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var styles = {
+  "TopBar": "Polaris-TopBar",
+  "LogoDisplayControl": "Polaris-TopBar__LogoDisplayControl",
+  "LogoDisplayContainer": "Polaris-TopBar__LogoDisplayContainer",
+  "LogoContainer": "Polaris-TopBar__LogoContainer",
+  "hasLogoSuffix": "Polaris-TopBar--hasLogoSuffix",
+  "Logo": "Polaris-TopBar__Logo",
+  "LogoLink": "Polaris-TopBar__LogoLink",
+  "ContextControl": "Polaris-TopBar__ContextControl",
+  "NavigationIcon": "Polaris-TopBar__NavigationIcon",
+  "focused": "Polaris-TopBar--focused",
+  "IconWrapper": "Polaris-TopBar__IconWrapper",
+  "Contents": "Polaris-TopBar__Contents",
+  "SearchField": "Polaris-TopBar__SearchField",
+  "SecondaryMenu": "Polaris-TopBar__SecondaryMenu"
+};
+
+exports["default"] = styles;

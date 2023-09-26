@@ -1,0 +1,28 @@
+import React, { memo } from 'react';
+import { classNames, variationName } from '../../utilities/css.js';
+import { elementChildren, wrapWithComponent } from '../../utilities/components.js';
+import styles from './Stack.scss.js';
+import { Item } from './components/Item/Item.js';
+
+const Stack = /*#__PURE__*/memo(function Stack({
+  children,
+  vertical,
+  spacing,
+  distribution,
+  alignment,
+  wrap
+}) {
+  const className = classNames(styles.Stack, vertical && styles.vertical, spacing && styles[variationName('spacing', spacing)], distribution && styles[variationName('distribution', distribution)], alignment && styles[variationName('alignment', alignment)], wrap === false && styles.noWrap);
+  const itemMarkup = elementChildren(children).map((child, index) => {
+    const props = {
+      key: index
+    };
+    return wrapWithComponent(child, Item, props);
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    className: className
+  }, itemMarkup);
+});
+Stack.Item = Item;
+
+export { Stack };

@@ -1,0 +1,2 @@
+export * from './Subheading';
+//# sourceMappingURL=index.d.ts.map

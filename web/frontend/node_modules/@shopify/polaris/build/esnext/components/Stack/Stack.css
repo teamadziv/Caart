@@ -1,0 +1,49 @@
+.Polaris-Stack_32wu2 { --pc-stack-spacing: var(--p-space-4); display: flex; flex-wrap: wrap; align-items: stretch; margin-top: calc(var(--pc-stack-spacing)*-1); margin-left: calc(var(--pc-stack-spacing)*-1); }
+
+.Polaris-Stack_32wu2 > .Polaris-Stack__Item_yiyol { margin-top: var(--pc-stack-spacing); margin-left: var(--pc-stack-spacing); max-width: 100%; }
+
+.Polaris-Stack--noWrap_vecks { flex-wrap: nowrap; }
+
+.Polaris-Stack--spacingNone_1b3d3 { --pc-stack-spacing: var(--p-space-0); }
+
+.Polaris-Stack--spacingExtraTight_gv6hw { --pc-stack-spacing: var(--p-space-1); }
+
+.Polaris-Stack--spacingTight_1o4d6 { --pc-stack-spacing: var(--p-space-2); }
+
+.Polaris-Stack--spacingBaseTight_nb78v { --pc-stack-spacing: var(--p-space-3); }
+
+.Polaris-Stack--spacingLoose_yte7q { --pc-stack-spacing: var(--p-space-5); }
+
+.Polaris-Stack--spacingExtraLoose_1ptvt { --pc-stack-spacing: var(--p-space-8); }
+
+.Polaris-Stack--distributionLeading_rudtn { justify-content: flex-start; }
+
+.Polaris-Stack--distributionTrailing_z5d5z { justify-content: flex-end; }
+
+.Polaris-Stack--distributionCenter_60gbr { justify-content: center; }
+
+.Polaris-Stack--distributionEqualSpacing_x9cqm { justify-content: space-between; }
+
+.Polaris-Stack--distributionFill_1c1lq > .Polaris-Stack__Item_yiyol { flex: 1 1 auto; }
+
+.Polaris-Stack--distributionFillEvenly_aehjo > .Polaris-Stack__Item_yiyol { flex: 1 1 auto; }
+
+@supports ((min-width: -webkit-fit-content) or (min-width: -moz-fit-content) or (min-width: fit-content)) { .Polaris-Stack--distributionFillEvenly_aehjo > .Polaris-Stack__Item_yiyol { flex: 1 0; min-width: -webkit-fit-content; min-width: -moz-fit-content; min-width: fit-content; } }
+
+.Polaris-Stack--alignmentLeading_1pu7t { align-items: flex-start; }
+
+.Polaris-Stack--alignmentTrailing_cp27m { align-items: flex-end; }
+
+.Polaris-Stack--alignmentCenter_1rtaw { align-items: center; }
+
+.Polaris-Stack--alignmentFill_m3d4l { align-items: stretch; }
+
+.Polaris-Stack--alignmentBaseline_aupj5 { align-items: baseline; }
+
+.Polaris-Stack--vertical_uiuuj { flex-direction: column; margin-left: var(--p-space-0); }
+
+.Polaris-Stack--vertical_uiuuj > .Polaris-Stack__Item_yiyol { margin-left: var(--p-space-0); }
+
+.Polaris-Stack__Item_yiyol { flex: 0 0 auto; min-width: 0; }
+
+.Polaris-Stack__Item--fill_vpuzt { flex: 1 1 auto; }

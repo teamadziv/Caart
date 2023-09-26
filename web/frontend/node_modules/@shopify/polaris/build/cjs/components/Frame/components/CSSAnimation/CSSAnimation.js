@@ -1,0 +1,62 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var React = require('react');
+var css = require('../../../../utilities/css.js');
+var CSSAnimation$1 = require('./CSSAnimation.scss.js');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
+
+var TransitionStatus;
+
+(function (TransitionStatus) {
+  TransitionStatus["Entering"] = "entering";
+  TransitionStatus["Entered"] = "entered";
+  TransitionStatus["Exiting"] = "exiting";
+  TransitionStatus["Exited"] = "exited";
+})(TransitionStatus || (TransitionStatus = {}));
+
+function CSSAnimation({
+  in: inProp,
+  className,
+  type,
+  children
+}) {
+  const [transitionStatus, setTransitionStatus] = React.useState(inProp ? TransitionStatus.Entering : TransitionStatus.Exited);
+  const isMounted = React.useRef(false);
+  const node = React.useRef(null);
+  React.useEffect(() => {
+    if (!isMounted.current) return;
+    transitionStatus === TransitionStatus.Entering && changeTransitionStatus(TransitionStatus.Entered);
+  }, [transitionStatus]);
+  React.useEffect(() => {
+    if (!isMounted.current) return;
+    inProp && changeTransitionStatus(TransitionStatus.Entering);
+    !inProp && changeTransitionStatus(TransitionStatus.Exiting);
+  }, [inProp]);
+  React.useEffect(() => {
+    isMounted.current = true;
+  }, []);
+  const wrapperClassName = css.classNames(className, CSSAnimation$1["default"][css.variationName('start', type)], inProp && CSSAnimation$1["default"][css.variationName('end', type)]);
+  const content = transitionStatus === TransitionStatus.Exited && !inProp ? null : children;
+  return /*#__PURE__*/React__default["default"].createElement("div", {
+    className: wrapperClassName,
+    ref: node,
+    onTransitionEnd: handleTransitionEnd
+  }, content);
+
+  function handleTransitionEnd() {
+    transitionStatus === TransitionStatus.Exiting && changeTransitionStatus(TransitionStatus.Exited);
+  }
+
+  function changeTransitionStatus(transitionStatus) {
+    setTransitionStatus(transitionStatus); // Forcing a reflow to enable the animation
+
+    if (transitionStatus === TransitionStatus.Entering) node.current && node.current.getBoundingClientRect();
+  }
+}
+
+exports.CSSAnimation = CSSAnimation;

@@ -1,0 +1,2 @@
+export * from './TextStyle';
+//# sourceMappingURL=index.d.ts.map

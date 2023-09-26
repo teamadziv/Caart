@@ -1,0 +1,13 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var styles = {
+  "DisplayText": "Polaris-DisplayText",
+  "sizeSmall": "Polaris-DisplayText--sizeSmall",
+  "sizeMedium": "Polaris-DisplayText--sizeMedium",
+  "sizeLarge": "Polaris-DisplayText--sizeLarge",
+  "sizeExtraLarge": "Polaris-DisplayText--sizeExtraLarge"
+};
+
+exports["default"] = styles;

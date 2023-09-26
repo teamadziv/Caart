@@ -1,0 +1,11 @@
+var styles = {
+  "TextOption": "Polaris-Listbox-TextOption",
+  "allowMultiple": "Polaris-Listbox-TextOption--allowMultiple",
+  "isAction": "Polaris-Listbox-TextOption--isAction",
+  "selected": "Polaris-Listbox-TextOption--selected",
+  "disabled": "Polaris-Listbox-TextOption--disabled",
+  "Content": "Polaris-Listbox-TextOption__Content",
+  "Checkbox": "Polaris-Listbox-TextOption__Checkbox"
+};
+
+export { styles as default };

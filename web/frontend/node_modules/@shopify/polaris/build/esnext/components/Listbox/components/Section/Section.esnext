@@ -1,0 +1,25 @@
+import React from 'react';
+import { classNames } from '../../../../utilities/css.esnext';
+import { listboxSectionDataSelector } from './selectors.esnext';
+import { SectionContext } from './context.esnext';
+import styles from './Section.scss.esnext';
+import { useUniqueId } from '../../../../utilities/unique-id/hooks.esnext';
+
+function Section({
+  children,
+  divider = true,
+  title
+}) {
+  const sectionId = useUniqueId('ListboxSection');
+  return /*#__PURE__*/React.createElement(SectionContext.Provider, {
+    value: sectionId
+  }, /*#__PURE__*/React.createElement("li", Object.assign({
+    role: "presentation"
+  }, listboxSectionDataSelector.props), title, /*#__PURE__*/React.createElement("ul", {
+    role: "group",
+    "aria-labelledby": sectionId,
+    className: classNames(styles.SectionGroup, !divider && styles.noDivider)
+  }, children)));
+}
+
+export { Section };

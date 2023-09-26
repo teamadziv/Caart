@@ -1,0 +1,10 @@
+var styles = {
+  "variationPositive": "Polaris-TextStyle--variationPositive",
+  "variationNegative": "Polaris-TextStyle--variationNegative",
+  "variationWarning": "Polaris-TextStyle--variationWarning",
+  "variationCode": "Polaris-TextStyle--variationCode",
+  "variationStrong": "Polaris-TextStyle--variationStrong",
+  "variationSubdued": "Polaris-TextStyle--variationSubdued"
+};
+
+export { styles as default };

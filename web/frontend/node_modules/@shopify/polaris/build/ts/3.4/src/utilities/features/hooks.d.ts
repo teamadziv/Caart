@@ -1,0 +1,2 @@
+export declare function useFeatures(): import("./types").Features;
+//# sourceMappingURL=hooks.d.ts.map

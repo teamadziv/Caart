@@ -1,0 +1,13 @@
+'use strict';
+
+var React = require('react');
+
+var SvgChevronDownMinor = function SvgChevronDownMinor(props) {
+  return /*#__PURE__*/React.createElement("svg", Object.assign({
+    viewBox: "0 0 20 20"
+  }, props), /*#__PURE__*/React.createElement("path", {
+    d: "M10 14a.997.997 0 0 1-.707-.293l-5-5a.999.999 0 1 1 1.414-1.414l4.293 4.293 4.293-4.293a.999.999 0 1 1 1.414 1.414l-5 5a.997.997 0 0 1-.707.293z"
+  }));
+};
+
+exports.SvgChevronDownMinor = SvgChevronDownMinor;

@@ -26,7 +26,7 @@ const shopify = shopifyApp({
   },
   auth: {
     path: "/api/auth",
-    callbackPath: "/api/auth/callback",
+    callbackPath: "/api/auth/callback", 
   },
   webhooks: {
     path: "/api/webhooks",

@@ -1,0 +1,54 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var React = require('react');
+var polarisIcons = require('@shopify/polaris-icons');
+var useToggle = require('../../../../utilities/use-toggle.js');
+var RollupActions$1 = require('./RollupActions.scss.js');
+var hooks = require('../../../../utilities/i18n/hooks.js');
+var Button = require('../../../Button/Button.js');
+var Popover = require('../../../Popover/Popover.js');
+var ActionList = require('../../../ActionList/ActionList.js');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
+
+function RollupActions({
+  accessibilityLabel,
+  items = [],
+  sections = []
+}) {
+  const i18n = hooks.useI18n();
+  const {
+    value: rollupOpen,
+    toggle: toggleRollupOpen
+  } = useToggle.useToggle(false);
+
+  if (items.length === 0 && sections.length === 0) {
+    return null;
+  }
+
+  const activatorMarkup = /*#__PURE__*/React__default["default"].createElement("div", {
+    className: RollupActions$1["default"].RollupActivator
+  }, /*#__PURE__*/React__default["default"].createElement(Button.Button, {
+    outline: true,
+    icon: polarisIcons.HorizontalDotsMinor,
+    accessibilityLabel: accessibilityLabel || i18n.translate('Polaris.ActionMenu.RollupActions.rollupButton'),
+    onClick: toggleRollupOpen
+  }));
+  return /*#__PURE__*/React__default["default"].createElement(Popover.Popover, {
+    active: rollupOpen,
+    activator: activatorMarkup,
+    preferredAlignment: "right",
+    onClose: toggleRollupOpen,
+    hideOnPrint: true
+  }, /*#__PURE__*/React__default["default"].createElement(ActionList.ActionList, {
+    items: items,
+    sections: sections,
+    onActionAnyItem: toggleRollupOpen
+  }));
+}
+
+exports.RollupActions = RollupActions;

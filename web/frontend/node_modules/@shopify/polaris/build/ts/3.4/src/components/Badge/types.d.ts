@@ -1,0 +1,17 @@
+export declare type Status = 'info' | 'success' | 'warning' | 'critical' | 'attention' | 'new';
+export declare enum StatusValue {
+    Info = "info",
+    Success = "success",
+    Warning = "warning",
+    Critical = "critical",
+    Attention = "attention",
+    New = "new"
+}
+export declare type Progress = 'incomplete' | 'partiallyComplete' | 'complete';
+export declare enum ProgressValue {
+    Incomplete = "incomplete",
+    PartiallyComplete = "partiallyComplete",
+    Complete = "complete"
+}
+export declare type Size = 'small' | 'medium';
+//# sourceMappingURL=types.d.ts.map

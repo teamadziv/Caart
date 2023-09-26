@@ -1,0 +1,2 @@
+export * from './DisplayText';
+//# sourceMappingURL=index.d.ts.map

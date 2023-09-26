@@ -1,0 +1,16 @@
+import React from 'react';
+
+var SvgViewMajor = function SvgViewMajor(props) {
+  return /*#__PURE__*/React.createElement("svg", Object.assign({
+    viewBox: "0 0 20 20"
+  }, props), /*#__PURE__*/React.createElement("path", {
+    fillRule: "evenodd",
+    d: "M19.928 9.629c-2.137-5.343-6.247-7.779-10.355-7.565-4.06.21-7.892 3.002-9.516 7.603l-.118.333.118.333c1.624 4.601 5.455 7.393 9.516 7.603 4.108.213 8.218-2.222 10.355-7.565l.149-.371-.149-.371zm-9.928 5.371a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: 10,
+    cy: 10,
+    r: 3
+  }));
+};
+
+export { SvgViewMajor as S };
