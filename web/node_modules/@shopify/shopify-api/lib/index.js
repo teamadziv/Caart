@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.shopifyApi = exports.Shopify = void 0;
 const tslib_1 = require("tslib");
+const compare_versions_1 = require("compare-versions");
 const load_rest_resources_1 = require("../rest/load-rest-resources");
 const platform_1 = require("../runtime/platform");
 const config_1 = require("./config");
@@ -19,6 +20,7 @@ tslib_1.__exportStar(require("../rest/types"), exports);
 tslib_1.__exportStar(require("./types"), exports);
 tslib_1.__exportStar(require("./base-types"), exports);
 tslib_1.__exportStar(require("./auth/types"), exports);
+tslib_1.__exportStar(require("./billing/types"), exports);
 tslib_1.__exportStar(require("./clients/types"), exports);
 tslib_1.__exportStar(require("./session/types"), exports);
 tslib_1.__exportStar(require("./webhooks/types"), exports);
@@ -49,6 +51,12 @@ function shopifyApi(config) {
     shopify.logger
         .info(`version ${version_1.SHOPIFY_API_LIBRARY_VERSION}, environment ${(0, platform_1.abstractRuntimeString)()}`)
         .catch((err) => console.log(err));
+    const nodeVersionMatches = (0, platform_1.abstractRuntimeString)().match(/(Node) (v\d+\.\d+\.\d+)/);
+    const isNode = nodeVersionMatches && nodeVersionMatches[1] === 'Node';
+    const nodeVersion = nodeVersionMatches ? nodeVersionMatches[2] : '';
+    if (isNode && (0, compare_versions_1.compare)(nodeVersion, '16.0.0', '<')) {
+        shopify.logger.deprecated('8.0.0', `Support for ${(0, platform_1.abstractRuntimeString)()} will be removed - please upgrade to Node v16.0.0 or higher.`);
+    }
     return shopify;
 }
 exports.shopifyApi = shopifyApi;

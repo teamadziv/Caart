@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const semver_1 = tslib_1.__importDefault(require("semver"));
+const compare_versions_1 = require("compare-versions");
 require("../adapters/mock");
 const mock_test_requests_1 = require("../adapters/mock/mock_test_requests");
 const http_1 = require("../runtime/http");
@@ -82,7 +81,7 @@ expect.extend({
     toBeWithinDeprecationSchedule(version) {
         return {
             message: () => `Found deprecation limited to version ${version}, please update or remove it.`,
-            pass: semver_1.default.lt(version_1.SHOPIFY_API_LIBRARY_VERSION, version),
+            pass: (0, compare_versions_1.compare)(version_1.SHOPIFY_API_LIBRARY_VERSION, version, '<'),
         };
     },
 });

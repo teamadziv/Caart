@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TEMPLATE_MUTATION = exports.TEMPLATE_GET_HANDLERS = exports.register = void 0;
 const tslib_1 = require("tslib");
+const version_compatible_1 = require("../utils/version-compatible");
 const graphql_client_1 = require("../clients/graphql/graphql_client");
 const error_1 = require("../error");
 const logger_1 = require("../logger");
@@ -65,7 +66,7 @@ function getExistingHandlers(config, session) {
         let hasNextPage;
         let endCursor = null;
         do {
-            const query = buildCheckQuery(endCursor);
+            const query = buildCheckQuery(config, endCursor);
             const response = yield client.query({
                 data: query,
             });
@@ -82,10 +83,18 @@ function getExistingHandlers(config, session) {
         return existingHandlers;
     });
 }
-function buildCheckQuery(endCursor) {
-    return (0, query_template_1.queryTemplate)(exports.TEMPLATE_GET_HANDLERS, {
+function buildCheckQuery(config, endCursor) {
+    return removeDeprecatedFields(config, (0, query_template_1.queryTemplate)(exports.TEMPLATE_GET_HANDLERS, {
         END_CURSOR: JSON.stringify(endCursor),
-    });
+    }));
+}
+function removeDeprecatedFields(config, query) {
+    let processedQuery = query;
+    // The privateMetafieldNamespaces field was deprecated in the July22 version, so we need to stop sending it
+    if ((0, version_compatible_1.versionCompatible)(config)(types_1.ApiVersion.July22)) {
+        processedQuery = processedQuery.replace('privateMetafieldNamespaces', '');
+    }
+    return processedQuery;
 }
 function buildHandlerFromNode(edge) {
     var _a, _b, _c;
@@ -217,6 +226,7 @@ function runMutation({ config, client, topic, handler, operation, }) {
                 deliveryMethod: handler.deliveryMethod,
                 success: isSuccess(result.body, handler, operation),
                 result: result.body,
+                operation,
             };
         }
         catch (error) {
@@ -225,6 +235,7 @@ function runMutation({ config, client, topic, handler, operation, }) {
                     deliveryMethod: handler.deliveryMethod,
                     success: false,
                     result: { message: error.message },
+                    operation,
                 };
             }
             else {
@@ -270,7 +281,9 @@ function buildMutation(config, topic, handler, operation) {
             params.metafieldNamespaces = JSON.stringify(handler.metafieldNamespaces);
         }
         if (handler.deliveryMethod === types_2.DeliveryMethod.Http &&
-            handler.privateMetafieldNamespaces) {
+            handler.privateMetafieldNamespaces &&
+            // This field was deprecated in the July22 version
+            (0, version_compatible_1.versionPriorTo)(config)(types_1.ApiVersion.July22)) {
             params.privateMetafieldNamespaces = JSON.stringify(handler.privateMetafieldNamespaces);
         }
         const paramsString = Object.entries(params)
@@ -310,7 +323,7 @@ function isSuccess(result, handler, operation) {
         result.data[mutationName] &&
         result.data[mutationName].userErrors.length === 0);
 }
-exports.TEMPLATE_GET_HANDLERS = `{
+exports.TEMPLATE_GET_HANDLERS = `query shopifyApiReadWebhookSubscriptions {
   webhookSubscriptions(
     first: 250,
     after: {{END_CURSOR}},
@@ -344,7 +357,7 @@ exports.TEMPLATE_GET_HANDLERS = `{
   }
 }`;
 exports.TEMPLATE_MUTATION = `
-  mutation webhookSubscription {
+  mutation shopifyApiCreateWebhookSubscription {
     {{MUTATION_NAME}}(
       {{IDENTIFIER}},
       {{MUTATION_PARAMS}}

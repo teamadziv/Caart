@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.versionCompatible = void 0;
+exports.versionPriorTo = exports.versionCompatible = void 0;
 const types_1 = require("../types");
 function versionCompatible(config) {
     return (referenceVersion, currentVersion = config.apiVersion) => {
@@ -15,4 +15,10 @@ function versionCompatible(config) {
     };
 }
 exports.versionCompatible = versionCompatible;
+function versionPriorTo(config) {
+    return (referenceVersion, currentVersion = config.apiVersion) => {
+        return !versionCompatible(config)(referenceVersion, currentVersion);
+    };
+}
+exports.versionPriorTo = versionPriorTo;
 //# sourceMappingURL=version-compatible.js.map

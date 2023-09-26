@@ -27,17 +27,18 @@ class RestClient extends http_client_1.HttpClient {
         const _super = Object.create(null, {
             request: { get: () => super.request }
         });
-        var _a, _b;
+        var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const customStoreAppAccessToken = (_a = this.restClass().config.adminApiAccessToken) !== null && _a !== void 0 ? _a : this.restClass().config.apiSecretKey;
             params.extraHeaders = Object.assign({ [types_1.ShopifyHeader.AccessToken]: this.restClass().config.isCustomStoreApp
-                    ? this.restClass().config.apiSecretKey
+                    ? customStoreAppAccessToken
                     : this.session.accessToken }, params.extraHeaders);
             const ret = yield _super.request.call(this, params);
             const link = (0, http_1.getHeader)(ret.headers, 'link');
             if (link !== undefined) {
                 const pageInfo = {
-                    limit: ((_a = params.query) === null || _a === void 0 ? void 0 : _a.limit)
-                        ? (_b = params.query) === null || _b === void 0 ? void 0 : _b.limit.toString()
+                    limit: ((_b = params.query) === null || _b === void 0 ? void 0 : _b.limit)
+                        ? (_c = params.query) === null || _c === void 0 ? void 0 : _c.limit.toString()
                         : RestClient.DEFAULT_LIMIT,
                 };
                 if (link) {

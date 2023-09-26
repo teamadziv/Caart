@@ -15,7 +15,7 @@ function cspHeaders({
 function addCSPHeader(api, req, res) {
   const shop = api.utils.sanitizeShop(req.query.shop);
   if (api.config.isEmbeddedApp && shop) {
-    res.setHeader('Content-Security-Policy', `frame-ancestors https://${encodeURIComponent(shop)} https://admin.shopify.com;`);
+    res.setHeader('Content-Security-Policy', `frame-ancestors https://${encodeURIComponent(shop)} https://admin.shopify.com https://*.spin.dev;`);
   } else {
     res.setHeader('Content-Security-Policy', `frame-ancestors 'none';`);
   }

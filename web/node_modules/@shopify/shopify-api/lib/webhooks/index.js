@@ -4,6 +4,7 @@ exports.shopifyWebhooks = void 0;
 const registry_1 = require("./registry");
 const register_1 = require("./register");
 const process_1 = require("./process");
+const validate_1 = require("./validate");
 function shopifyWebhooks(config) {
     const webhookRegistry = (0, registry_1.registry)();
     return {
@@ -12,6 +13,7 @@ function shopifyWebhooks(config) {
         getHandlers: (0, registry_1.getHandlers)(webhookRegistry),
         register: (0, register_1.register)(config, webhookRegistry),
         process: (0, process_1.process)(config, webhookRegistry),
+        validate: (0, validate_1.validateFactory)(config),
     };
 }
 exports.shopifyWebhooks = shopifyWebhooks;

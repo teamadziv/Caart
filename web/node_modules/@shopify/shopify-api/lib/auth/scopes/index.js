@@ -7,8 +7,11 @@ class AuthScopes {
         if (typeof scopes === 'string') {
             scopesArray = scopes.split(new RegExp(`${AuthScopes.SCOPE_DELIMITER}\\s*`));
         }
-        else if (scopes) {
+        else if (Array.isArray(scopes)) {
             scopesArray = scopes;
+        }
+        else if (scopes) {
+            scopesArray = Array.from(scopes.expandedScopes);
         }
         scopesArray = scopesArray
             .map((scope) => scope.trim())
