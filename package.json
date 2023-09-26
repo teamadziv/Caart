@@ -1,7 +1,6 @@
 {
   "name": "caart",
   "version": "1.0.0",
-  "main": "web/index.js",
   "license": "UNLICENSED",
   "scripts": {
     "shopify": "shopify",
@@ -12,11 +11,15 @@
     "deploy": "shopify app deploy"
   },
   "dependencies": {
-    "@shopify/app": "^3.35.0",
-    "@shopify/cli": "^3.35.0",
-    "axios": "^1.4.0",
+    "@shopify/app": "3.49.3",
+    "@shopify/cli": "3.49.3",
+    "axios": "^1.5.0",
     "cors": "^2.8.5",
-    "mongoose": "^7.2.1"
+    "mongoose": "^7.5.3"
   },
-  "author": "LENOVO"
+  "author": "adevi",
+  "private": true,
+  "workspaces": [
+    "extensions/*"
+  ]
 }
